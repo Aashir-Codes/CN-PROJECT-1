@@ -26,8 +26,7 @@ All project specifications, architecture diagrams, database references, API cont
 | :--- | :--- |
 | [docs/PRD.md](./docs/PRD.md) | Product requirements, user roles, 4-field intake form rules, required pages, security requirements, and acceptance criteria |
 | [docs/design-doc.md](./docs/design-doc.md) | System architecture (Mermaid diagrams), VMware addressing, TLS/Nginx/UFW rules, Docker stack, and Bonus 1 & 2 designs |
-| [docs/schema.svg](./docs/schema.svg) | Dark-theme PostgreSQL Entity-Relationship Diagram (`users` & `appointments` with crypto annotations) |
-| [docs/Table.md](./docs/Table.md) | Visual table breakdown of the PostgreSQL schema, constraints, AES-256-GCM packing format, and reference DDL |
+| [docs/Table.md](./docs/Table.md) | PostgreSQL schema reference, Mermaid ER diagram, constraints, AES-256-GCM packing format, and DDL |
 | [docs/api-contract.md](./docs/api-contract.md) | Locked-in REST API contract (`/api/v1`), cookie/JWT defaults, error codes, JSON payloads, and `curl` test commands |
 | [docs/checklist.md](./docs/checklist.md) | Phase-by-phase progress tracker for Abdullah & Aashir, Break-and-Fix fault log, submission audit, and viva readiness |
 
@@ -43,7 +42,48 @@ All project specifications, architecture diagrams, database references, API cont
 
 ### Database ER Preview
 
-![PostgreSQL Schema](./docs/schema.svg)
+```mermaid
+%%{init: {
+  'theme': 'base',
+  'themeVariables': {
+    'background': '#fdfbf7',
+    'mainBkg': '#fdfbf7',
+    'primaryColor': '#f3efe6',
+    'primaryTextColor': '#111111',
+    'primaryBorderColor': '#111111',
+    'lineColor': '#111111',
+    'textColor': '#111111',
+    'secondaryColor': '#f3efe6',
+    'tertiaryColor': '#fdfbf7',
+    'attributeBackgroundColorOdd': '#fdfbf7',
+    'attributeBackgroundColorEven': '#f3efe6'
+  },
+  'themeCSS': 'svg { background-color: #fdfbf7 !important; border-radius: 8px; } .er.entityBox { fill: #f3efe6 !important; stroke: #111111 !important; } .er.attributeBoxOdd { fill: #fdfbf7 !important; stroke: #111111 !important; } .er.attributeBoxEven { fill: #f3efe6 !important; stroke: #111111 !important; } .er.entityLabel, text { fill: #111111 !important; } .er.relationshipLabelBox { fill: #fdfbf7 !important; opacity: 1 !important; } .er.relationshipLine { stroke: #111111 !important; }'
+}}%%
+erDiagram
+    users ||--o{ appointments : "owns (ON DELETE CASCADE)"
+
+    users {
+        SERIAL id PK "Auto-increment"
+        VARCHAR full_name "VARCHAR(120) NOT NULL"
+        VARCHAR email UK "VARCHAR(255) UNIQUE NOT NULL"
+        TEXT password_hash "NOT NULL - Argon2id"
+        VARCHAR role "VARCHAR(16) NOT NULL DEFAULT 'user'"
+        TIMESTAMPTZ created_at "NOT NULL DEFAULT NOW()"
+    }
+
+    appointments {
+        SERIAL id PK "Auto-increment"
+        INTEGER user_id FK "NOT NULL REFERENCES users(id)"
+        VARCHAR patient_name "VARCHAR(120) NOT NULL"
+        VARCHAR department "VARCHAR(80) NOT NULL"
+        TIMESTAMPTZ appointment_date "NOT NULL"
+        TEXT medical_notes_enc "NOT NULL - AES-256-GCM"
+        VARCHAR status "VARCHAR(20) NOT NULL DEFAULT 'scheduled'"
+        TIMESTAMPTZ created_at "NOT NULL DEFAULT NOW()"
+        TIMESTAMPTZ updated_at "NOT NULL DEFAULT NOW()"
+    }
+```
 
 ---
 

@@ -126,6 +126,6 @@ Because medical intake records are highly sensitive, the product is designed aro
 ## 6. Related Documentation
 
 - [Technical Design Document](./design-doc.md) — Architecture, networking, TLS, UFW, Docker, and Bonus designs
-- [Database Schema Tables](./Table.md) & [ER Diagram](./schema.svg) — PostgreSQL schema & crypto storage layout
+- [Database Schema & ER Diagram](./Table.md) — PostgreSQL schema, Mermaid ER diagram, and crypto storage layout
 - [REST API Contract](./api-contract.md) — Endpoint specifications, schemas, status codes, and `curl` examples
 - [Partner Progress Checklist](./checklist.md) — Phase-by-phase tracker for Abdullah & Aashir
