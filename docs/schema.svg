@@ -1,0 +1,241 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 700" width="1180" height="700" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0d1117"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="usersHeader" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#1f6feb"/>
+      <stop offset="100%" stop-color="#388bfd"/>
+    </linearGradient>
+    <linearGradient id="apptHeader" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#238636"/>
+      <stop offset="100%" stop-color="#2ea043"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="114%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.45"/>
+    </filter>
+    <clipPath id="usersClip">
+      <rect x="44" y="112" width="440" height="332" rx="12"/>
+    </clipPath>
+    <clipPath id="apptClip">
+      <rect x="636" y="112" width="500" height="466" rx="12"/>
+    </clipPath>
+  </defs>
+
+  <!-- Canvas Background -->
+  <rect width="1180" height="700" rx="16" fill="url(#bgGrad)"/>
+
+  <!-- Subtle Dot Grid -->
+  <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+    <circle cx="2" cy="2" r="1" fill="#21262d"/>
+  </pattern>
+  <rect width="1180" height="700" rx="16" fill="url(#grid)" opacity="0.65"/>
+
+  <!-- Header Banner -->
+  <text x="44" y="48" fill="#e6edf3" font-size="22" font-weight="700" letter-spacing="0.2">Clinic Patient Appointment &amp; Intake Portal — PostgreSQL Schema</text>
+  <text x="44" y="72" fill="#8b949e" font-size="13">PostgreSQL 16 (127.0.0.1:5432 on VM2 / db:5432 on Docker lab-net)  •  Owned by Muhammad Aashir Khan (BSCS25079)</text>
+
+  <!-- Security Summary Pills Top-Right -->
+  <rect x="800" y="28" width="160" height="28" rx="14" fill="#1c2128" stroke="#f78166" stroke-width="1.2"/>
+  <text x="880" y="46" fill="#ffa198" font-size="11.5" font-weight="600" text-anchor="middle">Argon2id Passwords</text>
+
+  <rect x="974" y="28" width="162" height="28" rx="14" fill="#1c2128" stroke="#d2a8ff" stroke-width="1.2"/>
+  <text x="1055" y="46" fill="#d2a8ff" font-size="11.5" font-weight="600" text-anchor="middle">AES-256-GCM Notes</text>
+
+  <!-- ==================== TABLE 1: users ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="44" y="112" width="440" height="332" rx="12" fill="#161b22"/>
+  </g>
+
+  <g clip-path="url(#usersClip)">
+    <!-- Header -->
+    <rect x="44" y="112" width="440" height="48" fill="url(#usersHeader)"/>
+    <text x="64" y="142" fill="#ffffff" font-size="17" font-weight="700">users</text>
+    <text x="464" y="141" fill="#dbeafe" font-size="12" font-weight="600" text-anchor="end">6 columns</text>
+
+    <!-- users Column Header Strip -->
+    <rect x="44" y="160" width="440" height="28" fill="#1c2128"/>
+    <text x="64" y="178" fill="#8b949e" font-size="11" font-weight="700">KEY</text>
+    <text x="114" y="178" fill="#8b949e" font-size="11" font-weight="700">COLUMN</text>
+    <text x="276" y="178" fill="#8b949e" font-size="11" font-weight="700">TYPE &amp; CONSTRAINTS</text>
+    <line x1="44" y1="188" x2="484" y2="188" stroke="#30363d" stroke-width="1"/>
+
+    <!-- users Row 1: id -->
+    <rect x="44" y="188" width="440" height="42" fill="#161b22"/>
+    <rect x="60" y="199" width="38" height="20" rx="5" fill="#2d1f47" stroke="#a371f7" stroke-width="1"/>
+    <text x="79" y="213" fill="#d2a8ff" font-size="10.5" font-weight="700" text-anchor="middle">PK</text>
+    <text x="114" y="213" fill="#e6edf3" font-size="13.5" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">id</text>
+    <text x="276" y="213" fill="#79c0ff" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">SERIAL PRIMARY KEY</text>
+    <line x1="44" y1="230" x2="484" y2="230" stroke="#21262d" stroke-width="1"/>
+
+    <!-- users Row 2: full_name -->
+    <rect x="44" y="230" width="440" height="42" fill="#131820"/>
+    <text x="114" y="255" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">full_name</text>
+    <text x="276" y="255" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VARCHAR(120) NOT NULL</text>
+    <line x1="44" y1="272" x2="484" y2="272" stroke="#21262d" stroke-width="1"/>
+
+    <!-- users Row 3: email -->
+    <rect x="44" y="272" width="440" height="42" fill="#161b22"/>
+    <rect x="60" y="283" width="38" height="20" rx="5" fill="#1b2a3d" stroke="#58a6ff" stroke-width="1"/>
+    <text x="79" y="297" fill="#79c0ff" font-size="10.5" font-weight="700" text-anchor="middle">UQ</text>
+    <text x="114" y="297" fill="#e6edf3" font-size="13.5" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">email</text>
+    <text x="276" y="297" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VARCHAR(255) NOT NULL</text>
+    <line x1="44" y1="314" x2="484" y2="314" stroke="#21262d" stroke-width="1"/>
+
+    <!-- users Row 4: password_hash -->
+    <rect x="44" y="314" width="440" height="42" fill="#131820"/>
+    <rect x="57" y="325" width="46" height="20" rx="5" fill="#3a1f22" stroke="#f78166" stroke-width="1"/>
+    <text x="80" y="339" fill="#ffa198" font-size="9.5" font-weight="700" text-anchor="middle">HASH</text>
+    <text x="114" y="339" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">password_hash</text>
+    <text x="276" y="339" fill="#ffa198" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">TEXT NOT NULL (Argon2id)</text>
+    <line x1="44" y1="356" x2="484" y2="356" stroke="#21262d" stroke-width="1"/>
+
+    <!-- users Row 5: role -->
+    <rect x="44" y="356" width="440" height="42" fill="#161b22"/>
+    <text x="114" y="381" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">role</text>
+    <text x="276" y="376" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VARCHAR(16) NOT NULL</text>
+    <text x="276" y="392" fill="#8b949e" font-size="10.5">DEFAULT 'user' ('user' | 'admin')</text>
+    <line x1="44" y1="398" x2="484" y2="398" stroke="#21262d" stroke-width="1"/>
+
+    <!-- users Row 6: created_at -->
+    <rect x="44" y="398" width="440" height="46" fill="#131820"/>
+    <text x="114" y="424" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">created_at</text>
+    <text x="276" y="424" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">TIMESTAMPTZ DEFAULT NOW()</text>
+  </g>
+  <rect x="44" y="112" width="440" height="332" rx="12" fill="none" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- ==================== TABLE 2: appointments ==================== -->
+  <g filter="url(#cardShadow)">
+    <rect x="636" y="112" width="500" height="466" rx="12" fill="#161b22"/>
+  </g>
+
+  <g clip-path="url(#apptClip)">
+    <!-- Header -->
+    <rect x="636" y="112" width="500" height="48" fill="url(#apptHeader)"/>
+    <text x="656" y="142" fill="#ffffff" font-size="17" font-weight="700">appointments</text>
+    <text x="1116" y="141" fill="#dcfce7" font-size="12" font-weight="600" text-anchor="end">9 columns</text>
+
+    <!-- appointments Column Header Strip -->
+    <rect x="636" y="160" width="500" height="28" fill="#1c2128"/>
+    <text x="656" y="178" fill="#8b949e" font-size="11" font-weight="700">KEY</text>
+    <text x="712" y="178" fill="#8b949e" font-size="11" font-weight="700">COLUMN</text>
+    <text x="894" y="178" fill="#8b949e" font-size="11" font-weight="700">TYPE &amp; CONSTRAINTS</text>
+    <line x1="636" y1="188" x2="1136" y2="188" stroke="#30363d" stroke-width="1"/>
+
+    <!-- appointments Row 1: id -->
+    <rect x="636" y="188" width="500" height="42" fill="#161b22"/>
+    <rect x="652" y="199" width="38" height="20" rx="5" fill="#2d1f47" stroke="#a371f7" stroke-width="1"/>
+    <text x="671" y="213" fill="#d2a8ff" font-size="10.5" font-weight="700" text-anchor="middle">PK</text>
+    <text x="712" y="213" fill="#e6edf3" font-size="13.5" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">id</text>
+    <text x="894" y="213" fill="#79c0ff" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">SERIAL PRIMARY KEY</text>
+    <line x1="636" y1="230" x2="1136" y2="230" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 2: user_id -->
+    <rect x="636" y="230" width="500" height="42" fill="#131820"/>
+    <rect x="652" y="241" width="38" height="20" rx="5" fill="#3a2815" stroke="#f0883e" stroke-width="1"/>
+    <text x="671" y="255" fill="#ffa657" font-size="10.5" font-weight="700" text-anchor="middle">FK</text>
+    <text x="712" y="255" fill="#e6edf3" font-size="13.5" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">user_id</text>
+    <text x="894" y="250" fill="#ffa657" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">INTEGER NOT NULL</text>
+    <text x="894" y="266" fill="#8b949e" font-size="10.5">→ users(id) ON DELETE CASCADE</text>
+    <line x1="636" y1="272" x2="1136" y2="272" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 3: patient_name -->
+    <rect x="636" y="272" width="500" height="42" fill="#161b22"/>
+    <text x="712" y="297" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">patient_name</text>
+    <text x="894" y="297" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VARCHAR(120) NOT NULL</text>
+    <line x1="636" y1="314" x2="1136" y2="314" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 4: department -->
+    <rect x="636" y="314" width="500" height="42" fill="#131820"/>
+    <text x="712" y="339" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">department</text>
+    <text x="894" y="339" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VARCHAR(80) NOT NULL</text>
+    <line x1="636" y1="356" x2="1136" y2="356" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 5: appointment_date -->
+    <rect x="636" y="356" width="500" height="42" fill="#161b22"/>
+    <text x="712" y="381" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">appointment_date</text>
+    <text x="894" y="381" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">TIMESTAMPTZ NOT NULL</text>
+    <line x1="636" y1="398" x2="1136" y2="398" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 6: medical_notes_enc -->
+    <rect x="636" y="398" width="500" height="48" fill="#131820"/>
+    <rect x="648" y="412" width="48" height="20" rx="5" fill="#2d1f47" stroke="#d2a8ff" stroke-width="1"/>
+    <text x="672" y="426" fill="#d2a8ff" font-size="9.5" font-weight="700" text-anchor="middle">ENC</text>
+    <text x="712" y="426" fill="#e6edf3" font-size="13.5" font-weight="600" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">medical_notes_enc</text>
+    <text x="894" y="419" fill="#d2a8ff" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">TEXT NOT NULL</text>
+    <text x="894" y="436" fill="#8b949e" font-size="10.5">AES-256-GCM: b64(12B nonce+ct+16B tag)</text>
+    <line x1="636" y1="446" x2="1136" y2="446" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 7: status -->
+    <rect x="636" y="446" width="500" height="46" fill="#161b22"/>
+    <text x="712" y="473" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">status</text>
+    <text x="894" y="466" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">VARCHAR(20) NOT NULL</text>
+    <text x="894" y="483" fill="#8b949e" font-size="10.5">DEFAULT 'scheduled' (4 lifecycle states)</text>
+    <line x1="636" y1="492" x2="1136" y2="492" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 8: created_at -->
+    <rect x="636" y="492" width="500" height="42" fill="#131820"/>
+    <text x="712" y="517" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">created_at</text>
+    <text x="894" y="517" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">TIMESTAMPTZ DEFAULT NOW()</text>
+    <line x1="636" y1="534" x2="1136" y2="534" stroke="#21262d" stroke-width="1"/>
+
+    <!-- appointments Row 9: updated_at -->
+    <rect x="636" y="534" width="500" height="44" fill="#161b22"/>
+    <text x="712" y="559" fill="#e6edf3" font-size="13.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">updated_at</text>
+    <text x="894" y="559" fill="#c9d1d9" font-size="12.5" font-family="ui-monospace, SFMono-Regular, Menlo, monospace">TIMESTAMPTZ DEFAULT NOW()</text>
+  </g>
+  <rect x="636" y="112" width="500" height="466" rx="12" fill="none" stroke="#30363d" stroke-width="1.5"/>
+
+  <!-- ==================== RELATIONSHIP LINE: 1 to N ==================== -->
+  <!-- Connector from users.id (484, 209) to appointments.user_id (636, 251) -->
+  <path d="M 484 209 H 560 V 251 H 636" fill="none" stroke="#f0883e" stroke-width="2.5" stroke-linejoin="round"/>
+
+  <!-- "One" tick mark on users side -->
+  <line x1="498" y1="199" x2="498" y2="219" stroke="#f0883e" stroke-width="2.5"/>
+  <line x1="504" y1="199" x2="504" y2="219" stroke="#f0883e" stroke-width="2.5"/>
+
+  <!-- "Zero or Many" crow's foot on appointments side -->
+  <circle cx="615" cy="251" r="5" fill="#0d1117" stroke="#f0883e" stroke-width="2.2"/>
+  <line x1="620" y1="251" x2="636" y2="241" stroke="#f0883e" stroke-width="2.2"/>
+  <line x1="620" y1="251" x2="636" y2="251" stroke="#f0883e" stroke-width="2.2"/>
+  <line x1="620" y1="251" x2="636" y2="261" stroke="#f0883e" stroke-width="2.2"/>
+
+  <!-- Relationship Label Pill -->
+  <rect x="494" y="274" width="132" height="44" rx="8" fill="#1c2128" stroke="#f0883e" stroke-width="1.2"/>
+  <text x="560" y="293" fill="#ffa657" font-size="11.5" font-weight="700" text-anchor="middle">1 : N (owns)</text>
+  <text x="560" y="309" fill="#8b949e" font-size="9.5" text-anchor="middle">ON DELETE CASCADE</text>
+
+  <!-- ==================== SECURITY & LEGEND PANEL ==================== -->
+  <rect x="44" y="474" width="440" height="104" rx="12" fill="#161b22" stroke="#30363d" stroke-width="1.2"/>
+  <text x="64" y="500" fill="#e6edf3" font-size="13.5" font-weight="700">Security &amp; Provisioning Notes</text>
+  <text x="64" y="523" fill="#8b949e" font-size="12">• <tspan fill="#ffa198" font-weight="600">password_hash</tspan>: Argon2id (argon2-cffi), per-user salt.</text>
+  <text x="64" y="544" fill="#8b949e" font-size="12">• <tspan fill="#d2a8ff" font-weight="600">medical_notes_enc</tspan>: Fresh 12B os.urandom() nonce per write.</text>
+  <text x="64" y="565" fill="#8b949e" font-size="12">• <tspan fill="#79c0ff" font-weight="600">seed_admin.py</tspan>: Seeds admin from .env; signup = 'user' only.</text>
+
+  <!-- Footer Legend Bar -->
+  <rect x="44" y="608" width="1092" height="56" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+
+  <!-- Legend Items -->
+  <rect x="64" y="626" width="32" height="20" rx="5" fill="#2d1f47" stroke="#a371f7" stroke-width="1"/>
+  <text x="80" y="640" fill="#d2a8ff" font-size="10" font-weight="700" text-anchor="middle">PK</text>
+  <text x="106" y="640" fill="#c9d1d9" font-size="12">Primary Key</text>
+
+  <rect x="206" y="626" width="32" height="20" rx="5" fill="#3a2815" stroke="#f0883e" stroke-width="1"/>
+  <text x="222" y="640" fill="#ffa657" font-size="10" font-weight="700" text-anchor="middle">FK</text>
+  <text x="248" y="640" fill="#c9d1d9" font-size="12">Foreign Key</text>
+
+  <rect x="352" y="626" width="32" height="20" rx="5" fill="#1b2a3d" stroke="#58a6ff" stroke-width="1"/>
+  <text x="368" y="640" fill="#79c0ff" font-size="10" font-weight="700" text-anchor="middle">UQ</text>
+  <text x="394" y="640" fill="#c9d1d9" font-size="12">Unique Index</text>
+
+  <rect x="506" y="626" width="44" height="20" rx="5" fill="#3a1f22" stroke="#f78166" stroke-width="1"/>
+  <text x="528" y="640" fill="#ffa198" font-size="9.5" font-weight="700" text-anchor="middle">HASH</text>
+  <text x="560" y="640" fill="#c9d1d9" font-size="12">Argon2id Digest</text>
+
+  <rect x="688" y="626" width="40" height="20" rx="5" fill="#2d1f47" stroke="#d2a8ff" stroke-width="1"/>
+  <text x="708" y="640" fill="#d2a8ff" font-size="9.5" font-weight="700" text-anchor="middle">ENC</text>
+  <text x="738" y="640" fill="#c9d1d9" font-size="12">AES-256-GCM Ciphertext</text>
+
+  <text x="1116" y="640" fill="#8b949e" font-size="11.5" text-anchor="end">DB User: clinic_app (least privilege)</text>
+</svg>
