@@ -18,17 +18,31 @@
 
 ---
 
+## Phase 0: Architecture, Schema & API Contract Documentation
+
+- [x] Author project PRD, system architecture & network design doc, database schema (`users`, `appointments`), locked-in REST API contract (`/api/v1`), and partner checklist (`9576cb6`, `c7b513d` — Aashir).
+
+---
+
 ## Phase 1: Full-Stack Application Development (Part 1)
 
 ### Abdullah Saeed (`BSCS25067` — Frontend)
-- [ ] Scaffold React + Vite app in `frontend/` with relative `/api/v1/...` proxy for local dev.
-- [ ] Implement `src/api/client.js` using `fetch(..., { credentials: "include" })`.
-- [ ] Implement `src/context/AuthContext.jsx` hydrating state via `GET /api/v1/auth/me`.
-- [ ] Build `/register` page (Patient sign-up form + validation errors).
-- [ ] Build `/login` page (clearly renders `401 Invalid credentials` and `429 Too many attempts`).
-- [ ] Build `/change-password` page (current + new password form).
-- [ ] Build `/appointments` page (4-field Intake Form + user's bookings list with Reschedule & Cancel actions).
-- [ ] Build `/admin` portal (all patients' appointments, status dropdown, Delete button for `cancelled` records).
+- [x] Scaffold React + Vite + TypeScript + Tailwind CSS v4 app in `frontend/` (`316dc8c`, `ae7d254`).
+- [x] Build shared navigation shell (`src/components/Layout.tsx`) and React Router setup (`src/App.tsx`) (`782c43d`, `2b7a0ec`).
+- [x] Build UI layouts for all 5 required pages (`782c43d`, `2b7a0ec`):
+  - [x] `/register` (`src/pages/RegisterPage.tsx` — patient sign-up form layout)
+  - [x] `/login` (`src/pages/LoginPage.tsx` — sign-in form layout)
+  - [x] `/change-password` (`src/pages/ChangePasswordPage.tsx` — current + new password form layout)
+  - [x] `/appointments` (`src/pages/AppointmentsPage.tsx` — 4-field intake form + bookings list UI)
+  - [x] `/admin` (`src/pages/AdminPage.tsx` — summary cards + all patients' appointments table UI)
+- [ ] Add relative `/api` proxy (`http://127.0.0.1:8000`) in `frontend/vite.config.ts` for local dev.
+- [ ] Implement `src/api/client.ts` using `fetch(..., { credentials: "include" })`.
+- [ ] Implement `src/context/AuthContext.tsx` hydrating state via `GET /api/v1/auth/me` + logout action + route guards.
+- [ ] Wire `/register` form submission & inline `400` validation / `EMAIL_ALREADY_EXISTS` error handling.
+- [ ] Wire `/login` form submission & explicit error banners for `401 Invalid credentials` and `429 Too many attempts`.
+- [ ] Wire `/change-password` form submission to `POST /api/v1/auth/change-password` with feedback banners.
+- [ ] Wire `/appointments` page to live API (`GET/POST /api/v1/appointments`, Reschedule `PATCH`, Cancel `POST .../cancel`) replacing hardcoded sample cards.
+- [ ] Wire `/admin` portal to live API (`GET /api/v1/admin/appointments`, status dropdown `PATCH`, Delete `DELETE` for `cancelled` records) replacing hardcoded sample rows.
 - [ ] Verify clean production build (`npm run build` outputs `dist/`).
 
 ### Muhammad Aashir Khan (`BSCS25079` — Backend & DB)
@@ -39,7 +53,7 @@
 - [ ] Implement strict Pydantic v2 schemas + global error handler returning `400` in unified JSON envelope.
 - [ ] Implement all 13 endpoints matching [api-contract.md](./api-contract.md) (including `/api/v1/health` with `LAB_IP`).
 - [ ] Implement `backend/scripts/seed_admin.py` reading `ADMIN_EMAIL` and `ADMIN_PASSWORD` from `.env`.
-- [ ] Create `backend/.env.example` with placeholders only.
+- [x] Create root `.gitignore` and `backend/.env.example` with placeholders only.
 
 ### Phase 1 Joint Milestone
 - [ ] Full app runs end-to-end locally against PostgreSQL; all status codes (`200`, `201`, `400`, `401`, `403`, `404`, `500`) verified.
