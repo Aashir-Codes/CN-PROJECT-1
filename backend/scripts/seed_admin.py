@@ -1,5 +1,6 @@
 """Idempotent CLI script to seed the clinic staff 'admin' account from .env."""
 
+from email_validator import EmailNotValidError, validate_email
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -16,12 +17,18 @@ def seed_admin(session: Session | None = None) -> tuple[User, bool]:
     admin record was inserted and False when the account already existed.
     """
     settings = get_settings()
-    admin_email = settings.admin_email.strip().lower()
+    raw_email = settings.admin_email.strip().lower()
     admin_password = settings.admin_password
     admin_full_name = settings.admin_full_name.strip() or "Clinic Administrator"
 
-    if not admin_email or "@" not in admin_email:
-        raise ValueError("ADMIN_EMAIL must be set to a valid email address in .env.")
+    try:
+        validated = validate_email(raw_email, check_deliverability=False)
+        admin_email = validated.normalized.lower()
+    except EmailNotValidError as exc:
+        raise ValueError(f"ADMIN_EMAIL in .env is not a valid login email: {exc}") from exc
+
+    if len(admin_email) > 255:
+        raise ValueError("ADMIN_EMAIL must be at most 255 characters.")
     if not (8 <= len(admin_password) <= 128):
         raise ValueError("ADMIN_PASSWORD must be between 8 and 128 characters in .env.")
 

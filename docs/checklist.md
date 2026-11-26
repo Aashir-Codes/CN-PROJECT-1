@@ -46,13 +46,13 @@
 - [ ] Verify clean production build (`npm run build` outputs `dist/`).
 
 ### Muhammad Aashir Khan (`BSCS25079` — Backend & DB)
-- [ ] Scaffold FastAPI project in `backend/` (`main.py`, `config.py`, `database.py`, `models.py`, `schemas.py`, `security.py`, `deps.py`, `routers/`).
-- [ ] Define SQLAlchemy 2.x ORM models (`users`, `appointments`) — zero raw string-concatenated SQL.
-- [ ] Implement Argon2id password hashing (`argon2-cffi`) and AES-256-GCM field encryption (fresh 12-byte `os.urandom(12)` nonce per write).
-- [ ] Implement HS256 JWT (`30m` expiry) issued in `access_token` (`HttpOnly; Secure; SameSite=Lax`) cookie + RBAC dependencies (`401`/`403`).
-- [ ] Implement strict Pydantic v2 schemas + global error handler returning `400` in unified JSON envelope.
-- [ ] Implement all 13 endpoints matching [api-contract.md](./api-contract.md) (including `/api/v1/health` with `LAB_IP`).
-- [ ] Implement `backend/scripts/seed_admin.py` reading `ADMIN_EMAIL` and `ADMIN_PASSWORD` from `.env`.
+- [x] Scaffold FastAPI project in `backend/` (`main.py`, `config.py`, `database.py`, `models.py`, `schemas.py`, `security.py`, `deps.py`, `routers/`).
+- [x] Define SQLAlchemy 2.x ORM models (`users`, `appointments`) — zero raw string-concatenated SQL.
+- [x] Implement Argon2id password hashing (`argon2-cffi`) and AES-256-GCM field encryption (fresh 12-byte `os.urandom(12)` nonce per write).
+- [x] Implement HS256 JWT (`30m` expiry) issued in `access_token` (`HttpOnly; Secure; SameSite=Lax`) cookie + RBAC dependencies (`401`/`403`).
+- [x] Implement strict Pydantic v2 schemas + global error handler returning `400` in unified JSON envelope.
+- [x] Implement all 13 endpoints matching [api-contract.md](./api-contract.md) (including `/api/v1/health` with `LAB_IP`).
+- [x] Implement `backend/scripts/seed_admin.py` reading `ADMIN_EMAIL` and `ADMIN_PASSWORD` from `.env`.
 - [x] Create root `.gitignore` and `backend/.env.example` with placeholders only.
 
 ### Phase 1 Joint Milestone
