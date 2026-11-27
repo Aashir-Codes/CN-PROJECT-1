@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import { ApiClientError, authApi } from '../api/client'
+import { authApi } from '../api/client'
 import type { LoginPayload, User } from '../api/types'
-import { AuthContext } from './authContext'
+import { AuthContext } from './useAuth'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
@@ -13,11 +13,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const currentUser = await authApi.me()
       setUser(currentUser)
       return currentUser
-    } catch (err) {
-      if (err instanceof ApiClientError && err.status === 401) {
-        setUser(null)
-        return null
-      }
+    } catch {
       setUser(null)
       return null
     } finally {
@@ -26,8 +22,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [])
 
   useEffect(() => {
-    void refreshUser()
-  }, [refreshUser])
+    let cancelled = false
+    authApi
+      .me()
+      .then((currentUser) => {
+        if (!cancelled) setUser(currentUser)
+      })
+      .catch(() => {
+        if (!cancelled) setUser(null)
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const login = useCallback(async (payload: LoginPayload): Promise<User> => {
     const loggedInUser = await authApi.login(payload)

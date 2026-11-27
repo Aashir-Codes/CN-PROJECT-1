@@ -1,6 +1,51 @@
+import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
+import { ApiClientError, authApi } from '../api/client'
 
 export default function ChangePasswordPage() {
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [success, setSuccess] = useState<string | null>(null)
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setError(null)
+    setSuccess(null)
+
+    if (newPassword !== confirmPassword) {
+      setError('New password and confirmation do not match.')
+      return
+    }
+    if (newPassword === currentPassword) {
+      setError('New password must differ from your current password.')
+      return
+    }
+
+    setSubmitting(true)
+    try {
+      const result = await authApi.changePassword({
+        current_password: currentPassword,
+        new_password: newPassword,
+      })
+      setSuccess(result.message || 'Password updated successfully.')
+      setCurrentPassword('')
+      setNewPassword('')
+      setConfirmPassword('')
+    } catch (err) {
+      if (err instanceof ApiClientError) {
+        setError(err.message)
+      } else {
+        setError('Unable to update password. Please try again.')
+      }
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <section className="mx-auto max-w-md">
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -13,9 +58,25 @@ export default function ChangePasswordPage() {
           </p>
         </div>
 
-        {/* Success / Error feedback banner slot */}
+        {success && (
+          <div
+            role="status"
+            className="mb-4 rounded-lg border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800"
+          >
+            {success}
+          </div>
+        )}
 
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          >
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="current_password"
@@ -29,6 +90,8 @@ export default function ChangePasswordPage() {
               type="password"
               required
               autoComplete="current-password"
+              value={currentPassword}
+              onChange={(e) => setCurrentPassword(e.target.value)}
               placeholder="Enter current password"
               className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
             />
@@ -49,6 +112,8 @@ export default function ChangePasswordPage() {
               minLength={8}
               maxLength={128}
               autoComplete="new-password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
               placeholder="Minimum 8 characters"
               className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
             />
@@ -72,6 +137,8 @@ export default function ChangePasswordPage() {
               minLength={8}
               maxLength={128}
               autoComplete="new-password"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Re-enter new password"
               className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
             />
@@ -79,9 +146,10 @@ export default function ChangePasswordPage() {
 
           <button
             type="submit"
-            className="mt-2 w-full rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+            disabled={submitting}
+            className="mt-2 w-full rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Update Password
+            {submitting ? 'Updating Password...' : 'Update Password'}
           </button>
         </form>
 

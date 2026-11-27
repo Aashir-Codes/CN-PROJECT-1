@@ -1,6 +1,54 @@
-import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import type { FormEvent } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { ApiClientError, authApi } from '../api/client'
+import { useAuth } from '../context/useAuth'
 
 export default function RegisterPage() {
+  const { user, loading } = useAuth()
+  const navigate = useNavigate()
+
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  if (!loading && user) {
+    return (
+      <Navigate to={user.role === 'admin' ? '/admin' : '/appointments'} replace />
+    )
+  }
+
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    setError(null)
+    setSubmitting(true)
+
+    try {
+      const created = await authApi.register({
+        full_name: fullName.trim(),
+        email: email.trim(),
+        password,
+      })
+      navigate('/login', {
+        replace: true,
+        state: {
+          registeredEmail: created.email,
+          message: 'Account created successfully. Please sign in.',
+        },
+      })
+    } catch (err) {
+      if (err instanceof ApiClientError) {
+        setError(err.message)
+      } else {
+        setError('Registration failed. Please try again.')
+      }
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
     <section className="mx-auto max-w-md">
       <div className="rounded-xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
@@ -13,9 +61,16 @@ export default function RegisterPage() {
           </p>
         </div>
 
-        {/* Inline validation error alert slot (e.g. 400 VALIDATION_ERROR / EMAIL_ALREADY_EXISTS) */}
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          >
+            {error}
+          </div>
+        )}
 
-        <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <label
               htmlFor="full_name"
@@ -31,6 +86,8 @@ export default function RegisterPage() {
               minLength={2}
               maxLength={120}
               autoComplete="name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
               placeholder="Sara Ahmed"
               className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
             />
@@ -51,6 +108,8 @@ export default function RegisterPage() {
               required
               maxLength={255}
               autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="sara.ahmed@example.com"
               className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
             />
@@ -71,6 +130,8 @@ export default function RegisterPage() {
               minLength={8}
               maxLength={128}
               autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Minimum 8 characters"
               className="mt-1.5 block w-full rounded-lg border border-slate-300 bg-white px-3.5 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 focus:border-teal-600 focus:outline-none focus:ring-2 focus:ring-teal-600/20"
             />
@@ -81,9 +142,10 @@ export default function RegisterPage() {
 
           <button
             type="submit"
-            className="mt-2 w-full rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2"
+            disabled={submitting}
+            className="mt-2 w-full rounded-lg bg-teal-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            Create Account
+            {submitting ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 
