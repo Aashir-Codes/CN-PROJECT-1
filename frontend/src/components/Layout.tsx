@@ -1,4 +1,6 @@
-import { Link, NavLink, Outlet } from 'react-router-dom'
+import { useState } from 'react'
+import { Link, NavLink, Outlet, useNavigate } from 'react-router-dom'
+import { useAuth } from '../context/useAuth'
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
@@ -8,12 +10,28 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   }`
 
 export default function Layout() {
+  const { user, loading, logout } = useAuth()
+  const navigate = useNavigate()
+  const [loggingOut, setLoggingOut] = useState(false)
+
+  async function handleLogout() {
+    setLoggingOut(true)
+    try {
+      await logout()
+      navigate('/login', { replace: true })
+    } finally {
+      setLoggingOut(false)
+    }
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-slate-50 text-slate-900">
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
           <Link
-            to="/appointments"
+            to={
+              user ? (user.role === 'admin' ? '/admin' : '/appointments') : '/login'
+            }
             className="flex items-center gap-2.5 text-slate-900"
           >
             <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-teal-600 text-white">
@@ -42,35 +60,67 @@ export default function Layout() {
             </div>
           </Link>
 
-          <nav aria-label="Main navigation" className="flex flex-wrap items-center gap-1">
-            <NavLink to="/appointments" className={navLinkClass}>
-              Appointments
-            </NavLink>
-            <NavLink to="/admin" className={navLinkClass}>
-              Admin
-            </NavLink>
-            <NavLink to="/change-password" className={navLinkClass}>
-              Change Password
-            </NavLink>
-            <span
-              className="mx-1 hidden h-5 w-px bg-slate-200 sm:inline-block"
-              aria-hidden="true"
-            />
-            <NavLink to="/login" className={navLinkClass}>
-              Login
-            </NavLink>
-            <NavLink
-              to="/register"
-              className={({ isActive }) =>
-                `rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
-                  isActive
-                    ? 'bg-teal-700 text-white'
-                    : 'bg-teal-600 text-white hover:bg-teal-700'
-                }`
-              }
-            >
-              Register
-            </NavLink>
+          <nav
+            aria-label="Main navigation"
+            className="flex flex-wrap items-center gap-1"
+          >
+            {loading ? (
+              <span className="px-3 py-2 text-xs text-slate-400">
+                Loading...
+              </span>
+            ) : user ? (
+              <>
+                <NavLink to="/appointments" className={navLinkClass}>
+                  Appointments
+                </NavLink>
+                {user.role === 'admin' && (
+                  <NavLink to="/admin" className={navLinkClass}>
+                    Admin
+                  </NavLink>
+                )}
+                <NavLink to="/change-password" className={navLinkClass}>
+                  Change Password
+                </NavLink>
+                <span
+                  className="mx-1 hidden h-5 w-px bg-slate-200 sm:inline-block"
+                  aria-hidden="true"
+                />
+                <span className="hidden items-center gap-1.5 px-2 text-xs text-slate-600 md:inline-flex">
+                  <span className="font-medium text-slate-800">
+                    {user.full_name}
+                  </span>
+                  <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[11px] font-medium text-slate-600">
+                    {user.role}
+                  </span>
+                </span>
+                <button
+                  type="button"
+                  disabled={loggingOut}
+                  onClick={() => void handleLogout()}
+                  className="rounded-lg border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-100 disabled:opacity-60"
+                >
+                  {loggingOut ? 'Signing out...' : 'Log Out'}
+                </button>
+              </>
+            ) : (
+              <>
+                <NavLink to="/login" className={navLinkClass}>
+                  Login
+                </NavLink>
+                <NavLink
+                  to="/register"
+                  className={({ isActive }) =>
+                    `rounded-lg px-3.5 py-2 text-sm font-medium transition-colors ${
+                      isActive
+                        ? 'bg-teal-700 text-white'
+                        : 'bg-teal-600 text-white hover:bg-teal-700'
+                    }`
+                  }
+                >
+                  Register
+                </NavLink>
+              </>
+            )}
           </nav>
         </div>
       </header>
